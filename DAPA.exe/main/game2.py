@@ -4,7 +4,7 @@ from PIL import Image
 from pygame import mixer
 from time import sleep
 
-WORDLIST = [x.rstrip() for x in open("main\\words.txt", encoding="UTF-8").readlines()]
+WORDLIST = [x.rstrip() for x in open("DAPA.exe\\main\\words.txt", encoding="UTF-8").readlines()]
 SIZE = 100 # размер клетки
 word = []
 HALF = SIZE * (len(word) + 1) // 2 # половина окна: размер клетки умноженный на длину слова + 1 и поделённый на два
@@ -14,12 +14,12 @@ score = 0
 beats = 0 # кол-во ударов по кассиру
 running = True # идёт ли игра?
 
-background = Image.open("textures\\forest.png")
+background = Image.open("DAPA.exe\\textures\\forest.png")
 
 mixer.init()
-mixer.music.load("sound\\forest.mp3")
+mixer.music.load("DAPA.exe\\sound\\forest.mp3")
 
-with open("main\\sound_stat.txt") as sound:
+with open("DAPA.exe\\main\\sound_stat.txt") as sound:
     if sound.read():
         mixer.music.play(-1)
 
@@ -122,7 +122,7 @@ def click(x, y):
 def say(mode):
     yes_or_no = random.choice((True, False))
     if yes_or_no:
-        with open(f"main\\phrases\\{mode}.txt", encoding="UTF-8") as saylist:
+        with open(f"DAPA.exe\\main\\phrases\\{mode}.txt", encoding="UTF-8") as saylist:
             phrases = [x.rstrip() for x in saylist.readlines()]
             phrase.clear()
             phr = random.choice(phrases)
@@ -161,8 +161,8 @@ def clear():
 # изменение размера фона для правильного отображения
 def modify_background(screen):
     res = background.resize((SIZE * (len(word) + 10), SIZE * 4))
-    res.save("textures\\forest_RESIZED.png")
-    screen.bgpic("textures\\forest_RESIZED.png")
+    res.save("DAPA.exe\\textures\\forest_RESIZED.png")
+    screen.bgpic("DAPA.exe\\textures\\forest_RESIZED.png")
 
 
 def win():
@@ -171,7 +171,7 @@ def win():
     turtle.clearscreen()
     turtle.setup(600, 300)
     mixer.music.pause()
-    mixer.music.load("sound\\neutral.mp3")
+    mixer.music.load("DAPA.exe\\sound\\neutral.mp3")
     mixer.music.play()
     turtle.ht()
     turtle.pu()
@@ -197,9 +197,13 @@ def score_check():
 
 
 def new_game():
+    global HALF
+    global word
     if score_check():
         clear()
-        rand(word)
+        word = list(random.choice(WORDLIST))
+        random.shuffle(word)
+        HALF = SIZE * (len(word) + 1) // 2
         menu()
         sc = turtle.Screen()
         sc.setup(SIZE * (len(word) + 1), SIZE * 4)
@@ -216,7 +220,7 @@ def game_over():
         turtle.clearscreen()
         turtle.setup(1000, 300)
         mixer.music.pause()
-        mixer.music.load("sound\\oof.mp3")
+        mixer.music.load("DAPA.exe\\sound\\oof.mp3")
         mixer.music.play()
         turtle.bgcolor("black")
         turtle.pencolor("red")
@@ -229,7 +233,7 @@ def game_over():
         )
 
 
-turtle.register_shape("cashier", "textures\\mini_cashier.png")
+turtle.register_shape("cashier", "DAPA.exe\\textures\\mini_cashier.png")
 ans, ret, t, scr = turtle.Turtle(), turtle.Turtle(), turtle.Turtle(), turtle.Turtle()
 cashier, phrase = turtle.Turtle(shape="cashier"), turtle.Turtle()
 turtle.tracer(0)

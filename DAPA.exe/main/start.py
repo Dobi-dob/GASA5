@@ -4,7 +4,7 @@ from pygame import mixer
 import os
 
 TITLES = [
-    x.rstrip() for x in open("main\\titles.txt", encoding="UTF-8").readlines()
+    x.rstrip() for x in open("DAPA.exe\\main\\titles.txt", encoding="UTF-8").readlines()
 ]  # открытие файла с набором имён окна
 title = random.choice(TITLES)  # выбор случайного имени окна
 
@@ -19,7 +19,7 @@ fun = tkinter.BooleanVar()  # переменная с шуточной опци�
 fun.set(True)
 
 mixer.init()
-mixer.music.load("sound\\menu.mp3")
+mixer.music.load("DAPA.exe\\sound\\menu.mp3")
 
 
 def sound():
@@ -43,7 +43,7 @@ def prologue():
     lbl3 = tkinter.Label(
         root,
         text="Пролог!",
-        font=("Rockwell", 50)
+        font=("Haettenschweiler", 50)
     ).pack()
     btn5 = tkinter.Button(
         root,
@@ -122,7 +122,6 @@ def settings():
         fg="white",
         command=menu,
     ).place(x=520)
-    
     btn3 = tkinter.Checkbutton(
         root, text='Музыка в меню и игре (работает после нажатия "Назад", звуки останутся)', var=snd
     ).place(y=100)
@@ -131,15 +130,15 @@ def settings():
     ).place(y=150)
     lbl2 = tkinter.Label(
         root,
-        text="Версия 1.0",
-        font=("Rockwell Condensed", 30),
+        text="Версия 1.0.1",
+        font=("Haettenschweiler", 30),
         fg="black",
     ).place(y=200)
 
 
 def start_game():
-    os.startfile("main\\game1.exe")
-    with open("main\\sound_stat.txt", "w") as stat:
+    os.startfile("DAPA.exe\\main\\game1.exe")
+    with open("DAPA.exe\\main\\sound_stat.txt", "w") as stat:
         if snd.get():
             stat.write("1")
         else:

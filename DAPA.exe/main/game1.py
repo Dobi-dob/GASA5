@@ -3,17 +3,16 @@ from pygame import mixer
 from random import randint
 import time
 from os import startfile
-from sys import exit
 
 mixer.init()
-mixer.music.load("sound\\cashier.mp3")
+mixer.music.load("DAPA.exe\\sound\\cashier.mp3")
 
 root = turtle.Screen()
 root.setup(600, 600)
-root.bgpic("textures\\baseplate.png")
+root.bgpic("DAPA.exe\\textures\\baseplate.png")
 root.title("")
 # если в настройках была включена музыка, она включается
-with open("main\\sound_stat.txt") as sound:
+with open("DAPA.exe\\main\\sound_stat.txt") as sound:
     if sound.read():
         mixer.music.play(-1)
 
@@ -25,7 +24,7 @@ turtles = {
 }
 for item in "player", "cashier":
     turtles[item].pu()
-    root.register_shape(item, f"textures\\{item}.png")
+    root.register_shape(item, f"DAPA.exe\\textures\\{item}.png")
     turtles[item].shape(item)
     turtles[item].speed(0)
 turtles["target"].pu()
@@ -59,7 +58,7 @@ def check():
 def win():
     root.clearscreen()
     mixer.music.pause()
-    mixer.music.load("sound\\win.mp3")
+    mixer.music.load("DAPA.exe\\sound\\win.mp3")
     mixer.music.play()
     turtle.ht()
     turtle.colormode(255)
@@ -72,14 +71,14 @@ def win():
             font=("Comic Sans MS", 13),
             align="center",
         )
-    exit()
+    turtle.bye()
 
 
 def game_2():
     root.title("п̴̫͙̙́̀̚ӧ̸̦̦́͘͝п̴͔͚͇͊͑͌а̴̢̢͕͛̈́͘л̸͎͕͋͋с̵͖͍̞͒͒͋я̴̡̡̟͆̽͝п̸̺͚̈́̓̈́͜о̵̢͚̠̒͝п̴̢̘͔̽͌̚а̵͓̙̀͒͠л̵͙͇̒͌с̴͓̦͔͋̈́͠я̵͕͎͙͋͋̚")
     time.sleep(2)
-    startfile("main\\game2.exe")
-    quit()
+    startfile("DAPA.exe\\main\\game2.exe")
+    turtle.bye()
 
 
 def grab(new_x, new_y):
@@ -88,7 +87,7 @@ def grab(new_x, new_y):
         and abs(turtles["player"].ycor() - new_y) <= 158
     ):
         mixer.music.pause()
-        mixer.music.load("sound\\oof.mp3")
+        mixer.music.load("DAPA.exe\\sound\\oof.mp3")
         mixer.music.play()
         time.sleep(1)
         root.clearscreen()
@@ -122,11 +121,19 @@ def targ():
         turtle.ontimer(lambda: attack(new_x, new_y), cashier_timer)
 
 
-root.listen()
-root.onkeypress(lambda: move("up"), "w")
-root.onkeypress(lambda: move("bd"), "a")
-root.onkeypress(lambda: move("down"), "s")
-root.onkeypress(lambda: move("fd"), "d")
-turtle.ontimer(targ, target_timer)
+def keypress(event):
+    if event.char in ("w", "W", "ц", "Ц"):
+        move("up")
+    if event.char in ("a", "A", "ф", "Ф"):
+        move("bd")
+    if event.char in ("s", "S", "ы", "Ы"):
+        move("down")
+    if event.char in ("d", "D", "в", "В"):
+        move("fd")
 
+
+root.listen()
+canvas = root.getcanvas()
+canvas.bind('<KeyPress>', keypress)
+turtle.ontimer(targ, target_timer)
 turtle.done()
